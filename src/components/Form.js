@@ -10,7 +10,7 @@ import { Router } from 'react-router';
 
 function Details (userInfo){
 
-    const [selectedOption, setSelectedoption] = useState(null)
+    const [selectedOption, setSelectedOption] = useState(null)
     const [data, setData] = useState( {date_dep:'', date_arr:'', source:'', destination:'', stopage:'', airline:''})
 
 
@@ -54,7 +54,7 @@ function Details (userInfo){
     const set = (name) => {
         return ({ target: { value } }) => {
           setData(oldData => ({...oldData, [name]: value }));
-          console.log(value)
+          console.log(data)
         }
       };
 
@@ -70,6 +70,7 @@ function Details (userInfo){
     
     const handleChange = async(event) => {
         event.preventDefault();
+        console.log(data)
         try {
             await saveFormData();
             setData({date_dep:'', date_arr:'', source:'', destination:'', stopage:'', airline:''});
@@ -78,12 +79,11 @@ function Details (userInfo){
             }
         }
 
-    const choose = selectedOption => {
-        setSelectedoption({selectedOption});
+    const choose = (e, data) => {
+        setData(oldData => ({...oldData, [data.name]: data.value }));
     }
-
-    console.log(data)
     
+
     
 
     
@@ -108,13 +108,13 @@ function Details (userInfo){
                 <input type="date" name="date_arr" id="" onChange={set('date_arr')}/></Form.Input>
 
                 <Form.Group >
-                <Dropdown name= "source" placeholder='Source' options={source} search selection className="item" onChange={choose} value={selectedOption}/>
-                <Dropdown name="destination" placeholder='Destination' options={destination} search selection className="item" onClick={set('destination')}/>
+                <Dropdown name= "source" placeholder='Source' options={source} selection className="item" onChange={choose}/>
+                <Dropdown name="destination" placeholder='Destination' options={destination} search selection className="item" onChange={choose}/>
 
                 </Form.Group>
                 <Form.Group>
-                <Dropdown name="stopage" placeholder='Stopage' options={stopage} search selection className="item" id="stop"onSelect={set('stopage')}/>
-                <Dropdown name="airline" placeholder='Which airline do you want to travel?' options={airline} search selection className="item" id="stop" onChange={set('airline')}/>
+                <Dropdown name="stopage" placeholder='Stopage' options={stopage} search selection className="item" id="stop"onChange={choose}/>
+                <Dropdown name="airline" placeholder='Which airline do you want to travel?' options={airline} search selection className="item" id="stop" onChange={choose}/>
                 </Form.Group>
 
                 <Button type='submit'style={{marginTop:"50px"}} onClick={handleChange}>Submit</Button>
