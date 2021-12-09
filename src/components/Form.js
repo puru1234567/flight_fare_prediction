@@ -58,24 +58,27 @@ function Details (userInfo){
         }
       };
 
-    const saveFormData = async () => {
-        const response = await fetch('/predict', {
-          method: 'POST',
-          body: JSON.stringify(data)
-        });
-        if (response.status !== 200) {
-          throw new Error(`Request failed: ${response.status}`); 
-        }
+    const saveFormData = async (data) => {
+        fetch("/predict", {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).then((response)=>{response.json().then((res)=>{
+            console.log(res)
+        })
+        })
       }
     
     const handleChange = async(event) => {
         event.preventDefault();
         console.log(data)
         try {
-            await saveFormData();
+            await saveFormData(data);
             setData({date_dep:'', date_arr:'', source:'', destination:'', stopage:'', airline:''});
         }catch (e) {
-                console.log("error")
+                console.log(e)
             }
         }
 
@@ -100,7 +103,7 @@ function Details (userInfo){
 
                 <Segment inverted>
                 <h1 style={{color:"white"}}></h1>
-            <Form inverted onSubmit={handleChange}>
+            <Form inverted >
                 <Form.Input label='Departure Date' placeholder='Departure Date'>
                     <input type="date" name="date_dep" id="" onChange={set('date_dep')} />
                     </Form.Input>

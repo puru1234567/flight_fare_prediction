@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from flask_cors import cross_origin
+from app import app
 import sklearn
 import pickle
 import pandas as pd
@@ -9,13 +9,11 @@ model = pickle.load(open("flight_rf.pkl", "rb"))
 
 
 @app.route("/predict")
-@cross_origin()
 def home():
     return print("this is server")
 
 
 @app.route("/predict", methods=["GET", "POST"])
-@cross_origin()
 def predict():
     if request.method == "POST":
 
