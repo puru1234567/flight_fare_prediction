@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import Details from "./Form";
 import flight2 from '../videos/flight2.mp4'
+import Particles from "react-tsparticles";
+
 
 import { Button, Icon } from 'semantic-ui-react'
 import './GoogleAuth.css'
@@ -45,6 +47,7 @@ class GoogleLoginComponent extends Component {
     console.log(response);
   };
 
+
   // Logout Session and Update State
   
   logout = (response) => {
@@ -60,8 +63,16 @@ class GoogleLoginComponent extends Component {
     
   };
 
+  particlesInit = (main) => {
+    // console.log(main);
 
-  
+    // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
+  };
+
+  particlesLoaded = (container) => {
+    // console.log(container);
+  };
+    
 
 
   
@@ -70,13 +81,101 @@ class GoogleLoginComponent extends Component {
       
       <div className="row mt-4">
         <div className="col-md-4">
-        <video className='flight' autoPlay loop muted>
-                    <source src={flight2} type='video/mp4' />
-                </video>
-          {this.state.isLoggedIn ? (
-            <div>
+          <video className='flight' autoPlay loop muted>
+            <source src={flight2} type='video/mp4' />
+          </video>
+          <Particles
+          id="tsparticles"
+          init={this.particlesInit}
+          loaded={this.particlesLoaded}
+          options={{
               
+            fpsLimit: 60,
+            interactivity: {
+            events: {
+                onClick: {
+                enable: true,
+                mode: "attract",
+                },
+                onHover: {
+                enable: true,
+                mode: "repulse",
+                },
+                resize: true,
+            },
+            modes: {
+                bubble: {
+                distance: 400,
+                duration: 2,
+                opacity: 0.8,
+                size: 40,
+                },
+                push: {
+                quantity: 4,
+                },
+                repulse: {
+                distance: 100,
+                duration: 0.1,
+                },
+                attract:{
+                    distance:200,
+                    duration:0.4,
+                }
+            },
+            },
+            particles: {
+            color: {
+                value: "#fffff",
+            },
+            links: {
+                color: "#e9c066",
+                distance: 150,
+                enable: true,
+                opacity: 0.5,
+                width: 1,
+            },
+            collisions: {
+                enable: true,
+            },
+            move: {
+                direction: "none",
+                enable: true,
+                outMode: "destroy",
+                random: false,
+                speed: 3,
+                straight: false,
+            },
+            number: {
+                density: {
+                enable: true,
+                value_area: 600,
+                },
+                value: 100,
+            },
+            opacity: {
+                value: 0.5,
+            },
+            shape: {
+                image: {
+                    height: 500,
+                    src: "https://particles.js.org/images/plane_alt.png",
+                    width: 128
+                  },
+                  type: "image"
+                    },
+                //   opacity: {
+                //     value: 1
+                //   },                        
+            },
+            size: {
+                random: true,
+                value: 5,
+            },
+        
+            detectRetina: true,}}/>
             
+          {this.state.isLoggedIn ? (
+            <div>          
                   <div style={{textAlign:"right", display:"flex-end", backgroundColor:"black"}} >
                   
                   

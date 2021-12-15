@@ -328,9 +328,9 @@ def predict():
 
         filename = 'venv/flight_rf.pkl'
         with open(filename, 'rb') as f:
-            print("bhola" , f)
+            # print("bhola" , f)
             model = pickle.load(f)
-            print(model)
+            # print(model)
         # model = pickle.load(open("flight_rf.pkl", "rb"))
 
 

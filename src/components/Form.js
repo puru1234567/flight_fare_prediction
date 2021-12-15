@@ -167,7 +167,7 @@ function Details (userInfo){
             document.getElementById("fare").style.display= "inline"
             document.getElementById("new").style.display= "inline"
 
-            document.getElementById("fare").innerHTML= "Your total Journey fare is "+res.s
+            document.getElementById("fare").innerHTML= "Your total Journey fare is ₹ "+res.s
         })
         })
       }
@@ -228,7 +228,7 @@ function Details (userInfo){
             <p id="fare" style={{fontSize:"5vh", color:"yellow"}}></p>
             <Button animated size="huge" bordered={true} circular color="yellow" inverted onClick={newJourney} id ="new" style={{display:"none", width:"90px"}}>
               
-            <Button.Content hidden style={{fontSize:"65%"}}>New Journey
+            <Button.Content hidden style={{fontSize:"70%"}}>NewJourney
 
             </Button.Content>
             <Button.Content visible>
