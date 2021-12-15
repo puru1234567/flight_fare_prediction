@@ -1,19 +1,21 @@
 import React from 'react'
-import flight2 from '../videos/flight2.mp4'
+import { Icon } from 'semantic-ui-react'
 import './Landing.css'
-import GoogleLoginComponent from './Googleauth'
+// import GoogleLoginComponent from './Googleauth'
 function Landing() {
    
 
     return (
         <div>
             <div className="landing">
-                <video className='flight' autoPlay loop muted>
-                    <source src={flight2} type='video/mp4' />
-                </video>
-                    <div className="high">High Risers
-                    {/* < GoogleLoginComponent style={{marginTop:"10%"}}/> */}
+                    <div ><h1 className="high">
+                        High Risers
+                        <Icon name=" plane" size='small' color='yellow' />
+                        </h1>
                     </div>
+                {/* <video className='flight' autoPlay loop muted>
+                    <source src={flight2} type='video/mp4' />
+                </video> */}
             </div>
 
         </div>

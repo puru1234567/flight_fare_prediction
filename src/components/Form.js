@@ -1,16 +1,24 @@
 import React, {useState} from 'react'
-import { Button, Form, Dropdown, Segment } from 'semantic-ui-react'
-import flying from '../videos/flying.mp4'
+import { Button, Form, Dropdown, Segment, Icon } from 'semantic-ui-react'
+// import flying from '../videos/flying.mp4'
+import Particles from "react-tsparticles";
 import 'semantic-ui-css/semantic.min.css';
 import './Form.css'
-import GoogleLoginComponent from './Googleauth';
-import { Router } from 'react-router';
-
-
+import { Fade } from 'react-reveal';
 
 function Details (userInfo){
 
-    const [selectedOption, setSelectedOption] = useState(null)
+    const particlesInit = (main) => {
+        console.log(main);
+    
+        // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
+      };
+    
+      const particlesLoaded = (container) => {
+        // console.log(container);
+      };
+
+    
     const [data, setData] = useState( {date_dep:'', date_arr:'', source:'', destination:'', stopage:'', airline:''})
 
 
@@ -51,6 +59,94 @@ function Details (userInfo){
 
     ]
 
+    const options = [{
+                    
+                    fpsLimit: 60,
+                    interactivity: {
+                    events: {
+                        onClick: {
+                        enable: true,
+                        mode: "attract",
+                        },
+                        onHover: {
+                        enable: true,
+                        mode: "repulse",
+                        },
+                        resize: true,
+                    },
+                    modes: {
+                        bubble: {
+                        distance: 400,
+                        duration: 2,
+                        opacity: 0.8,
+                        size: 40,
+                        },
+                        push: {
+                        quantity: 4,
+                        },
+                        repulse: {
+                        distance: 100,
+                        duration: 0.1,
+                        },
+                        attract:{
+                            distance:200,
+                            duration:0.4,
+                        }
+                    },
+                    },
+                    particles: {
+                    color: {
+                        value: "#fffff",
+                    },
+                    links: {
+                        color: "#e9c066",
+                        distance: 150,
+                        enable: true,
+                        opacity: 0.5,
+                        width: 1,
+                    },
+                    collisions: {
+                        enable: true,
+                    },
+                    move: {
+                        direction: "none",
+                        enable: true,
+                        outMode: "destroy",
+                        random: false,
+                        speed: 3,
+                        straight: false,
+                    },
+                    number: {
+                        density: {
+                        enable: true,
+                        value_area: 600,
+                        },
+                        value: 100,
+                    },
+                    opacity: {
+                        value: 0.5,
+                    },
+                    shape: {
+                        image: {
+                            height: 500,
+                            src: "https://particles.js.org/images/plane_alt.png",
+                            width: 128
+                          },
+                          type: "image"
+                            },
+                        //   opacity: {
+                        //     value: 1
+                        //   },                        
+                    },
+                    size: {
+                        random: true,
+                        value: 5,
+                    },
+                
+                    detectRetina: true,
+                    
+                }]
+
     const set = (name) => {
         return ({ target: { value } }) => {
           setData(oldData => ({...oldData, [name]: value }));
@@ -67,6 +163,7 @@ function Details (userInfo){
             body: JSON.stringify(data)
         }).then((response)=>{response.json().then((res)=>{
             console.log(res)
+            document.getElementById("fare").innerHTML= "Your total Journey fare is"+res.s
         })
         })
       }
@@ -85,49 +182,85 @@ function Details (userInfo){
     const choose = (e, data) => {
         setData(oldData => ({...oldData, [data.name]: data.value }));
     }
-    
 
-    
+    const[color, setColor] =useState("white")
+    const changeColor = (e) =>{
+        if(color==="white"){
+            setColor("yellow")
+        }
+        else{
+            setColor("white")
+        }
+    }
 
-    
 
     return (
-        <div>
-            <video className='flight' autoPlay loop muted>
-                    <source src={flying} type='video/mp4' />
-                </video>
-            <div className="details">
-            <h1 className="higher">High Risers</h1>
+        <div id="tsparticles">
+            {/* <video className='flight' autoPlay loop muted>
+                    <source src={flight2} type='video/mp4' />
+                </video> */}
+
+            <Particles
+                id="tsparticles"
+                init={particlesInit}
+                loaded={particlesLoaded}
+                options={options}/>
+  
+
+            {/* <video className='flight' autoPlay loop muted>
+                    <source src={flight2} type='video/mp4' />
+                </video> */}
+            <div className="details" >
+                <Fade cascade>
+
+                    <Fade left>
+                    <h1 className="higher">High Risers 
+                        <Icon name=" plane"  size='mini' color={color} fitted bordered={false} onClick={changeColor}/><br/>
+            <p id="fare"></p>
+            </h1>
+            </Fade>
+                </Fade>
+            
+
             
                 
 
-                <Segment inverted>
-                <h1 style={{color:"white"}}></h1>
-            <Form inverted >
-                <Form.Input label='Departure Date' placeholder='Departure Date'>
-                    <input type="date" name="date_dep" id="" onChange={set('date_dep')} />
-                    </Form.Input>
-                <Form.Input label='Arrival Date' placeholder='Arrival Date' >
-                <input type="date" name="date_arr" id="" onChange={set('date_arr')}/></Form.Input>
+                <Segment >
+                    <Form >
 
-                <Form.Group >
-                <Dropdown name= "source" placeholder='Source' options={source} selection className="item" onChange={choose}/>
-                <Dropdown name="destination" placeholder='Destination' options={destination} search selection className="item" onChange={choose}/>
+                        <Form.Input label='Departure Date' placeholder='Departure Date'>
+                            <input type="date" name="date_dep" id="" onChange={set('date_dep')} />
+                        </Form.Input>
 
-                </Form.Group>
-                <Form.Group>
-                <Dropdown name="stopage" placeholder='Stopage' options={stopage} search selection className="item" id="stop"onChange={choose}/>
-                <Dropdown name="airline" placeholder='Which airline do you want to travel?' options={airline} search selection className="item" id="stop" onChange={choose}/>
-                </Form.Group>
+                        <Form.Input label='Arrival Date' placeholder='Arrival Date' >
+                                <input type="date" name="date_arr" id="" onChange={set('date_arr')}/>
+                        </Form.Input>
+                        <Form.Input label='Source' placeholder='Source'>
 
-                <Button type='submit'style={{marginTop:"50px"}} onClick={handleChange}>Submit</Button>
-            </Form>
-            </Segment>
+                            <Dropdown name= "source" placeholder='Source' options={source} fluid selection className="item" onChange={choose}/>
+                        </Form.Input>
+                        <Form.Input label='Destination' placeholder='Destination'>
+
+                            <Dropdown name="destination" placeholder='Destination' options={destination} fluid selection className="item" onChange={choose}/>
+                        </Form.Input>
+                        <Form.Input label='Stopage' placeholder='Stopage'>
+
+
+                            <Dropdown name="stopage" placeholder='Stopage' options={stopage} fluid selection className="item" id="stop"onChange={choose}/>
+                        </Form.Input>
+                        <Form.Input label='Airline' placeholder='Airline'>
+
+                            <Dropdown name="airline" placeholder='Which airline do you want to travel?' options={airline} fluid selection className="item" id="stop" onChange={choose}/>
+                            </Form.Input>
+                        <Button type='submit'style={{marginTop:"50px"}} onClick={handleChange} color='yellow' animated='vertical'>
+                                <Button.Content visible>Submit</Button.Content>
+                            <Button.Content hidden><Icon name="plane"></Icon></Button.Content>
+                        </Button>
+                    </Form>
+                </Segment>
 
             
-            </div>
-                {/* < GoogleLoginComponent style={{marginTop:"10%"}} isLoggedIn={isLoggedIn}/> */}
-               
+            </div>               
         </div>
     )
 }
