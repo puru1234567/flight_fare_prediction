@@ -9,7 +9,7 @@ import { Fade } from 'react-reveal';
 function Details (userInfo){
 
     const particlesInit = (main) => {
-        console.log(main);
+        // console.log(main);
     
         // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
       };
@@ -150,7 +150,7 @@ function Details (userInfo){
     const set = (name) => {
         return ({ target: { value } }) => {
           setData(oldData => ({...oldData, [name]: value }));
-          console.log(data)
+        //   console.log(data)
         }
       };
 
@@ -174,7 +174,7 @@ function Details (userInfo){
     
     const handleChange = async(event) => {
         event.preventDefault();
-        console.log(data)
+        // console.log(data)
         try {
             await saveFormData(data);
             setData({date_dep:'', date_arr:'', source:'', destination:'', stopage:'', airline:''});
