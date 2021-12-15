@@ -163,7 +163,11 @@ function Details (userInfo){
             body: JSON.stringify(data)
         }).then((response)=>{response.json().then((res)=>{
             console.log(res)
-            document.getElementById("fare").innerHTML= "Your total Journey fare is"+res.s
+            document.getElementById("segment").style.display= "none"
+            document.getElementById("fare").style.display= "inline"
+            document.getElementById("new").style.display= "inline"
+
+            document.getElementById("fare").innerHTML= "Your total Journey fare is "+res.s
         })
         })
       }
@@ -181,6 +185,10 @@ function Details (userInfo){
 
     const choose = (e, data) => {
         setData(oldData => ({...oldData, [data.name]: data.value }));
+    }
+
+    const newJourney = (e) =>{
+        window.location.reload()
     }
 
     const[color, setColor] =useState("white")
@@ -216,8 +224,17 @@ function Details (userInfo){
                     <Fade left>
                     <h1 className="higher">High Risers 
                         <Icon name=" plane"  size='mini' color={color} fitted bordered={false} onClick={changeColor}/><br/>
-            <p id="fare"></p>
             </h1>
+            <p id="fare" style={{fontSize:"5vh", color:"yellow"}}></p>
+            <Button animated size="huge" bordered={true} circular color="yellow" inverted onClick={newJourney} id ="new" style={{display:"none", width:"90px"}}>
+              
+            <Button.Content hidden style={{fontSize:"65%"}}>New Journey
+
+            </Button.Content>
+            <Button.Content visible>
+              <Icon size="large "name='plane' />
+            </Button.Content>
+          </Button > 
             </Fade>
                 </Fade>
             
@@ -225,7 +242,7 @@ function Details (userInfo){
             
                 
 
-                <Segment >
+                <Segment id ="segment">
                     <Form >
 
                         <Form.Input label='Departure Date' placeholder='Departure Date'>
